@@ -9,6 +9,8 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     background: ${(props) => props.theme.background};
+    width: 100vw;
+    height: 100vh;
   }
 
   h1, h2, h3 {
@@ -32,7 +34,14 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 1.5rem;
   }
 
-  body, input, textarea, p {
+  body {
+    font-family: "Red Hat Text", sans-serif;
+    font-weight: 400;
+    font-size: 0.875;
+    line-height: 1.5;
+  }
+
+   input, textarea, p {
     color: ${(props) => props.theme["body-text"]};
     font-family: "Red Hat Text", sans-serif;
     font-weight: 400;
@@ -45,6 +54,9 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 700;
     font-size: 0.875;
     color: ${(props) => props.theme["title-text"]};
+    
+    border: none;
+    border-radius: 6px;
   }
 
   a {
@@ -53,4 +65,5 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 0.875;
     color: ${(props) => props.theme["title-text"]};
   }
+
 `;
