@@ -1,10 +1,10 @@
 import styled from "styled-components";
-
 interface ButtonProps {
   checkMode?: boolean;
 }
 
 const Button = styled.button<ButtonProps>`
+  max-width: 425px;
   padding: 0.75rem 0.5rem;
 
   border: none;
