@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Header } from "../../components/Header";
-import { ContentContainer, PageContainer } from "./styles";
+import { ContentContainer, MyListsContainer } from "./styles";
 import { PrimaryLink } from "../../styles/globalLinksStyles";
 // import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ export function MyLists() {
   // }
 
   return (
-    <PageContainer>
+    <MyListsContainer>
       {lists.length ? (
         <Header
           title="Minhas listas"
@@ -33,6 +33,6 @@ export function MyLists() {
       <ContentContainer>
         <PrimaryLink to={"/create-list"}>Criar lista</PrimaryLink>
       </ContentContainer>
-    </PageContainer>
+    </MyListsContainer>
   );
 }

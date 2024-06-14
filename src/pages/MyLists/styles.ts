@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const PageContainer = styled.div`
+export const MyListsContainer = styled.div`
   height: 100vh;
 
   margin: 0 auto;

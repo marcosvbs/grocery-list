@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const HomeContainer = styled.div`
-  max-width: 425px;
   height: 100vh;
 
   display: flex;
@@ -16,6 +15,7 @@ export const HomeContainer = styled.div`
 
 export const HomeButtonsContainer = styled.div`
   width: 100%;
+  max-width: 425px;
 
   display: flex;
   flex-direction: column;
