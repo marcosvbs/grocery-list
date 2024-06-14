@@ -31,7 +31,7 @@ export function MyLists() {
       )}
 
       <ContentContainer>
-        <PrimaryLink to={"/"}>Criar lista</PrimaryLink>
+        <PrimaryLink to={"/create-list"}>Criar lista</PrimaryLink>
       </ContentContainer>
     </PageContainer>
   );

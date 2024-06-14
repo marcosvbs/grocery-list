@@ -44,3 +44,16 @@ export const SecondaryButton = styled.button<ButtonProps>`
         : props.theme["dark-primary-brand"]};
   }
 `;
+
+export const TertiaryButton = styled.button<ButtonProps>`
+  ${defaultStyles}
+
+  background-color: none;
+
+  &:hover {
+    color: ${(props) =>
+      props.checkMode
+        ? props.theme["dark-secondary-brand"]
+        : props.theme["dark-primary-brand"]};
+  }
+`;

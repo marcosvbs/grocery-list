@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-interface LinksProps {
+interface LinkProps {
   checkMode?: boolean;
 }
 
 const defaultStyles = `
+  width: 100%;
   max-width: 425px;
   padding: 0.75rem 0.5rem;
 
@@ -22,7 +23,7 @@ const defaultStyles = `
   text-decoration: none;
 `;
 
-export const PrimaryLink = styled(Link)<LinksProps>`
+export const PrimaryLink = styled(Link)<LinkProps>`
   ${defaultStyles}
 
   background-color: ${(props) =>
@@ -38,13 +39,26 @@ export const PrimaryLink = styled(Link)<LinksProps>`
   }
 `;
 
-export const SecondaryLink = styled(Link)<LinksProps>`
+export const SecondaryLink = styled(Link)<LinkProps>`
   ${defaultStyles}
 
   background-color: ${(props) => props.theme["container-background"]};
 
   &:hover {
     background-color: ${(props) =>
+      props.checkMode
+        ? props.theme["dark-secondary-brand"]
+        : props.theme["dark-primary-brand"]};
+  }
+`;
+
+export const TertiaryLink = styled(Link)<LinkProps>`
+  ${defaultStyles}
+
+  background-color: none;
+
+  &:hover {
+    color: ${(props) =>
       props.checkMode
         ? props.theme["dark-secondary-brand"]
         : props.theme["dark-primary-brand"]};
