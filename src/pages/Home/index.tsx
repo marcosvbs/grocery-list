@@ -1,5 +1,6 @@
 import Logo from "../../assets/logo.png";
-import { PrimaryButton, SecondaryButton } from "../../styles/buttons";
+import { PrimaryLink, SecondaryLink } from "../../styles/globalLinksStyles";
+
 import { HomeButtonsContainer, HomeContainer } from "./styles";
 
 export function Home() {
@@ -8,8 +9,8 @@ export function Home() {
       <img src={Logo} alt="" />
 
       <HomeButtonsContainer>
-        <PrimaryButton>Entrar</PrimaryButton>
-        <SecondaryButton>Criar conta</SecondaryButton>
+        <PrimaryLink to={"/my-lists"}>Entrar</PrimaryLink>
+        <SecondaryLink to={"/"}>Criar conta</SecondaryLink>
       </HomeButtonsContainer>
     </HomeContainer>
   );
