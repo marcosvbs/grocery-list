@@ -1,7 +1,14 @@
 import { useState } from "react";
 import { Header } from "../../components/Header";
-import { ContentContainer, MyListsContainer } from "./styles";
-import { PrimaryLink } from "../../styles/globalLinksStyles";
+import {
+  ContentContainer,
+  ListCard,
+  PageContainer,
+  ActionBar,
+  ListsList,
+  DeleteButton,
+} from "./styles";
+import { PrimaryLink } from "../../styles/links";
 // import { Link } from "react-router-dom";
 
 interface List {
@@ -17,7 +24,7 @@ export function MyLists() {
   // }
 
   return (
-    <MyListsContainer>
+    <PageContainer>
       {lists.length ? (
         <Header
           title="Minhas listas"
@@ -31,8 +38,21 @@ export function MyLists() {
       )}
 
       <ContentContainer>
-        <PrimaryLink to={"/create-list"}>Criar lista</PrimaryLink>
+        <ListsList>
+          <li>
+            <ListCard>
+              <p>Feira mensal</p>
+              <DeleteButton>
+                <span className="material-symbols-outlined">delete</span>
+              </DeleteButton>
+            </ListCard>
+          </li>
+        </ListsList>
       </ContentContainer>
-    </MyListsContainer>
+
+      <ActionBar>
+        <PrimaryLink to={"/create-list"}>Criar lista</PrimaryLink>
+      </ActionBar>
+    </PageContainer>
   );
 }

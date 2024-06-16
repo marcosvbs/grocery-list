@@ -1,17 +1,19 @@
 import Logo from "../../assets/logo.png";
-import { PrimaryLink, SecondaryLink } from "../../styles/globalLinksStyles";
+import { PrimaryLink, SecondaryLink } from "../../styles/links";
 
-import { HomeButtonsContainer, HomeContainer } from "./styles";
+import { ActionBar, ContentContainer, PageContainer } from "./styles";
 
 export function Home() {
   return (
-    <HomeContainer>
-      <img src={Logo} alt="" />
+    <PageContainer>
+      <ContentContainer>
+        <img src={Logo} alt="" />
+      </ContentContainer>
 
-      <HomeButtonsContainer>
+      <ActionBar>
         <PrimaryLink to={"/my-lists"}>Entrar</PrimaryLink>
         <SecondaryLink to={"/"}>Criar conta</SecondaryLink>
-      </HomeButtonsContainer>
-    </HomeContainer>
+      </ActionBar>
+    </PageContainer>
   );
 }

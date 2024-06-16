@@ -5,6 +5,7 @@ interface ButtonProps {
 }
 
 const defaultStyles = `
+  width: 100%;
   max-width: 425px;
   padding: 0.75rem 0.5rem;
 

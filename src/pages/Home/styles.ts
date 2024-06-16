@@ -1,23 +1,46 @@
 import styled from "styled-components";
 
-export const HomeContainer = styled.div`
+export const PageContainer = styled.div`
+  width: 100%;
   height: 100vh;
+
+  margin: 0 auto;
 
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1rem;
 
-  img {
-    margin: auto;
-  }
+  gap: 1rem;
 `;
 
-export const HomeButtonsContainer = styled.div`
+export const ContentContainer = styled.div`
   width: 100%;
   max-width: 425px;
 
+  padding: 0 1rem;
+
+  margin: auto 0;
+
   display: flex;
   flex-direction: column;
+
+  img {
+    align-self: center;
+
+    max-width: 140px;
+  }
+`;
+
+export const ActionBar = styled.div`
+  display: flex;
+
+  width: 100%;
+  max-width: 425px;
+
+  padding: 0 1rem;
+
+  margin-top: auto;
+  margin-bottom: 1rem;
+
   gap: 1rem;
 `;

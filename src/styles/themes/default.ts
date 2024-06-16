@@ -16,4 +16,5 @@ export const defaultTheme = {
   "dark-secondary-brand": "#724600",
 
   error: "#F75A68",
+  "dark-error": "#AA2834",
 };

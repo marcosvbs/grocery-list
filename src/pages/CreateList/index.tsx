@@ -1,7 +1,18 @@
 import { Header } from "../../components/Header";
-import { PrimaryLink, TertiaryLink } from "../../styles/globalLinksStyles";
-import { ActionBar, ContentContainer, PageContainer } from "./styles";
+import { PrimaryButton } from "../../styles/buttons";
+import { SecondaryLink } from "../../styles/links";
+import {
+  ActionBar,
+  ContentContainer,
+  CreateListForm,
+  ListDataField,
+  PageContainer,
+} from "./styles";
 import * as Form from "@radix-ui/react-form";
+
+function handleSubmit() {
+  console.log("enviou!");
+}
 
 export function CreateList() {
   return (
@@ -9,22 +20,22 @@ export function CreateList() {
       <Header title="Criar lista" />
 
       <ContentContainer>
-        <Form.Root>
-          <Form.Field name={"newList"}>
+        <CreateListForm>
+          <ListDataField name={"listName"}>
             <Form.Label>Nome da lista</Form.Label>
-            <Form.Message>Please provide a name</Form.Message>
-          </Form.Field>
-
-          <Form.Message />
-
-          <Form.Submit />
-        </Form.Root>
-
-        <ActionBar>
-          <TertiaryLink to={"/my-lists"}>Voltar</TertiaryLink>
-          <PrimaryLink to={"/"}>Salvar</PrimaryLink>
-        </ActionBar>
+            <Form.Control placeholder={"Nome da lista"} asChild>
+              <input className="Input" type="text" required />
+            </Form.Control>
+          </ListDataField>
+        </CreateListForm>
       </ContentContainer>
+
+      <ActionBar>
+        <SecondaryLink to={"/my-lists"}>Voltar</SecondaryLink>
+        <Form.Submit onSubmit={handleSubmit} asChild>
+          <PrimaryButton>Salvar</PrimaryButton>
+        </Form.Submit>
+      </ActionBar>
     </PageContainer>
   );
 }
