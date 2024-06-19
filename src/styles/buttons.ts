@@ -15,6 +15,8 @@ const defaultStyles = `
   font-family: "Red Hat Display", sans-serif;
   font-weight: 700;
   font-size: 0.875;
+
+  cursor: pointer;
 `;
 
 export const PrimaryButton = styled.button<ButtonProps>`

@@ -21,6 +21,8 @@ const defaultStyles = `
   font-weight: 700;
   font-size: 0.875;
   text-decoration: none;
+
+  cursor: pointer;
 `;
 
 export const PrimaryLink = styled(Link)<LinkProps>`

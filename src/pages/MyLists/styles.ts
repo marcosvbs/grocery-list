@@ -83,7 +83,6 @@ export const DeleteButton = styled.button`
   }
 
   .material-symbols-outlined {
-    font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
     color: ${(props) => props.theme.error};
   }
 `;
@@ -139,5 +138,21 @@ export const CreateListDialog = styled(Dialog)`
   .listNameField {
     display: flex;
     flex-direction: column;
+
+    gap: 0.25rem;
+
+    input {
+      max-height: 40px;
+
+      padding: 0.75rem;
+
+      background-color: ${(props) => props.theme.background};
+      border: none;
+      border-radius: 6px;
+
+      &::placeholder {
+        color: ${(props) => props.theme["placeholder-text"]};
+      }
+    }
   }
 `;

@@ -28,10 +28,28 @@ interface List {
 export function MyLists() {
   const [lists, setLists] = useState<List[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [newListName, setNewListName] = useState<string>("");
 
-  // function handleCreateList(listName: string) {
-  //   setLists([{ id: 1, name: listName }]);
-  // }
+  function handleChangeNewListName(event: React.ChangeEvent<HTMLInputElement>) {
+    setNewListName(event.target.value);
+  }
+
+  function handleCreateNewList() {
+    setLists([
+      {
+        id: lists.length + 1,
+        name: newListName,
+      },
+      ...lists,
+    ]);
+
+    setIsOpen(false);
+    setNewListName("");
+  }
+
+  function handleDeleteList(listId: number) {
+    setLists(lists.filter((list) => list.id !== listId));
+  }
 
   return (
     <PageContainer>
@@ -49,14 +67,18 @@ export function MyLists() {
 
       <ContentContainer>
         <ListsList>
-          <li>
-            <ListCard>
-              <p>Feira mensal</p>
-              <DeleteButton>
-                <span className="material-symbols-outlined">delete</span>
-              </DeleteButton>
-            </ListCard>
-          </li>
+          {lists.map((list) => {
+            return (
+              <li key={list.id}>
+                <ListCard>
+                  <p>{list.name}</p>
+                  <DeleteButton onClick={() => handleDeleteList(list.id)}>
+                    <span className="material-symbols-outlined">delete</span>
+                  </DeleteButton>
+                </ListCard>
+              </li>
+            );
+          })}
         </ListsList>
 
         <CreateListDialog open={isOpen} onClose={() => setIsOpen(false)}>
@@ -72,8 +94,17 @@ export function MyLists() {
 
               <Field className={"listNameField"}>
                 <Label as="p">Nome</Label>
-                <Input name="listName" placeholder="Nome da lista" />
+                <Input
+                  name="listName"
+                  autoFocus
+                  value={newListName}
+                  onChange={handleChangeNewListName}
+                />
               </Field>
+
+              <PrimaryButton onClick={handleCreateNewList}>
+                Salvar
+              </PrimaryButton>
             </DialogPanel>
           </div>
         </CreateListDialog>
