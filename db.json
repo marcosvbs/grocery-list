@@ -2,13 +2,7 @@
   "lists": [
     {
       "id": 1,
-      "name": "Feira Marcos e Nanda",
-      "items": []
-    },
-    {
-      "id": 2,
-      "name": "Feira pão",
-      "items": []
+      "name": "Feira mensal"
     }
   ]
 }

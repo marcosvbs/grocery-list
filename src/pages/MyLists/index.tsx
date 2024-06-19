@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../../components/Header";
 import {
   ContentContainer,
@@ -19,6 +19,7 @@ import {
   Input,
   Label,
 } from "@headlessui/react";
+import { api } from "../../lib/axios";
 
 interface List {
   id: number;
@@ -30,26 +31,48 @@ export function MyLists() {
   const [isOpen, setIsOpen] = useState(false);
   const [newListName, setNewListName] = useState<string>("");
 
+  async function fetchLists() {
+    const response = await api.get("/lists");
+    const fetchedLists = response.data;
+    setLists(fetchedLists);
+  }
+
+  async function handleDeleteList(listId: number) {
+    try {
+      await api.delete(`/lists/${listId}`);
+      fetchLists();
+      setLists((prevLists) => prevLists.filter((list) => list.id !== listId));
+    } catch (error) {
+      console.log("Error while deleting list", error);
+    }
+  }
+
   function handleChangeNewListName(event: React.ChangeEvent<HTMLInputElement>) {
     setNewListName(event.target.value);
   }
 
-  function handleCreateNewList() {
-    setLists([
-      {
-        id: lists.length + 1,
-        name: newListName,
-      },
-      ...lists,
-    ]);
+  async function handleCreateNewList() {
+    const lastListId = lists.length ? lists[lists.length - 1].id : 0;
 
-    setIsOpen(false);
-    setNewListName("");
+    const newList = {
+      id: lastListId + 1,
+      name: newListName,
+    };
+
+    try {
+      await api.post("/lists", newList);
+      fetchLists();
+
+      setIsOpen(false);
+      setNewListName("");
+    } catch (error) {
+      console.error("Error while creating new list", error);
+    }
   }
 
-  function handleDeleteList(listId: number) {
-    setLists(lists.filter((list) => list.id !== listId));
-  }
+  useEffect(() => {
+    fetchLists();
+  }, []);
 
   return (
     <PageContainer>

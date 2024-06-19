@@ -77,6 +77,7 @@ export const DeleteButton = styled.button`
 
   background: none;
   border: none;
+  cursor: pointer;
 
   &:hover {
     background-color: ${(props) => props.theme["dark-error"]};
