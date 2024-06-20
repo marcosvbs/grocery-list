@@ -40,8 +40,8 @@ export function MyLists() {
   async function handleDeleteList(listId: number) {
     try {
       await api.delete(`/lists/${listId}`);
-      fetchLists();
       setLists((prevLists) => prevLists.filter((list) => list.id !== listId));
+      fetchLists();
     } catch (error) {
       console.log("Error while deleting list", error);
     }
