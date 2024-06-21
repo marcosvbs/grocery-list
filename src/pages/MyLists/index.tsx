@@ -20,11 +20,8 @@ import {
   Label,
 } from "@headlessui/react";
 import { api } from "../../lib/axios";
-
-interface List {
-  id: number;
-  name: string;
-}
+import { Link } from "react-router-dom";
+import { List } from "../../@types/list";
 
 export function MyLists() {
   const [lists, setLists] = useState<List[]>([]);
@@ -57,6 +54,7 @@ export function MyLists() {
     const newList = {
       id: lastListId + 1,
       name: newListName,
+      items: [],
     };
 
     try {
@@ -94,7 +92,10 @@ export function MyLists() {
             return (
               <li key={list.id}>
                 <ListCard>
-                  <p>{list.name}</p>
+                  <Link to={`/my-lists/${list.id}`}>
+                    <p>{list.name}</p>
+                  </Link>
+
                   <DeleteButton onClick={() => handleDeleteList(list.id)}>
                     <span className="material-symbols-outlined">delete</span>
                   </DeleteButton>

@@ -57,6 +57,10 @@ export const ListCard = styled.div`
   border-left: 3px ${(props) => props.theme["body-text"]} solid;
   border-radius: 6px;
 
+  a {
+    flex-grow: 1;
+    text-decoration: none;
+  }
   p {
     flex-grow: 1;
 
