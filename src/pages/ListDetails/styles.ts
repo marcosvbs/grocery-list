@@ -22,3 +22,17 @@ export const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const ActionBar = styled.div`
+  display: flex;
+
+  width: 100%;
+  max-width: 425px;
+
+  padding: 0 1rem;
+
+  margin-top: auto;
+  margin-bottom: 1rem;
+
+  gap: 1rem;
+`;

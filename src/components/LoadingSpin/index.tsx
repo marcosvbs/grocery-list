@@ -1,9 +1,13 @@
 import spin from "../../assets/spin.svg";
 import { LoadingSpinContainer } from "./styles";
 
-export function LoadingSpin() {
+interface LoadingSpinProps {
+  size: number;
+}
+
+export function LoadingSpin({ size }: LoadingSpinProps) {
   return (
-    <LoadingSpinContainer>
+    <LoadingSpinContainer $size={size}>
       <img src={spin} alt="" />
     </LoadingSpinContainer>
   );

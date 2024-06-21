@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
-import { List } from "../../@types/list";
+import { List } from "../../@types/listsAndItems";
 import { Header } from "../../components/Header";
-import { ContentContainer, PageContainer } from "./styles";
-import { PrimaryLink } from "../../styles/links";
+import { ActionBar, ContentContainer, PageContainer } from "./styles";
+import { SecondaryLink } from "../../styles/links";
 import { LoadingSpin } from "../../components/LoadingSpin";
+import { PrimaryButton } from "../../styles/buttons";
 
 export function ListDetails() {
   const [loadingListData, setLoadingListData] = useState(true);
@@ -44,17 +45,13 @@ export function ListDetails() {
             : "Você ainda não possui itens adicionados"
         }
       />
-      {loadingListData ? (
-        <LoadingSpin />
-      ) : (
-        <ContentContainer>
-          {loadingListData ? (
-            <LoadingSpin />
-          ) : (
-            <PrimaryLink to={"/my-lists"}>Voltar</PrimaryLink>
-          )}
-        </ContentContainer>
-      )}
+      <ContentContainer>
+        {loadingListData ? <LoadingSpin size={40} /> : "oi"}
+      </ContentContainer>
+      <ActionBar>
+        <SecondaryLink to={"/my-lists"}>Voltar</SecondaryLink>
+        <PrimaryButton>Adicionar item</PrimaryButton>
+      </ActionBar>
     </PageContainer>
   );
 }

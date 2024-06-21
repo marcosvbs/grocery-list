@@ -21,15 +21,16 @@ import {
 } from "@headlessui/react";
 import { api } from "../../lib/axios";
 import { Link } from "react-router-dom";
-import { List } from "../../@types/list";
+import { List } from "../../@types/listsAndItems";
 import { LoadingSpin } from "../../components/LoadingSpin";
 
 export function MyLists() {
   const [loadingListData, setLoadingListData] = useState(true);
+  const [deletingList, setDeletingList] = useState(false);
+  const [creatingList, setCreatingList] = useState(false);
   const [lists, setLists] = useState<List[]>([]);
   const [createListDialogIsOpen, setCreateListDialogIsOpen] =
     useState<boolean>(false);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
   const [newListName, setNewListName] = useState<string>("");
 
   async function fetchLists() {
@@ -46,16 +47,23 @@ export function MyLists() {
 
   function handleOpenCreateListDialog() {
     setCreateListDialogIsOpen(true);
-    setIsFocused(true);
+  }
+
+  function handleCloseCreateListDialog() {
+    setCreateListDialogIsOpen(false);
+    setNewListName("");
   }
 
   async function handleDeleteList(listId: number) {
+    setDeletingList(true);
     try {
       await api.delete(`/lists/${listId}`);
       setLists((prevLists) => prevLists.filter((list) => list.id !== listId));
       fetchLists();
     } catch (error) {
       console.error("Error while deleting list", error);
+    } finally {
+      setDeletingList(false);
     }
   }
 
@@ -64,6 +72,7 @@ export function MyLists() {
   }
 
   async function handleCreateNewList() {
+    setCreatingList(true);
     const lastListId = lists.length ? lists[lists.length - 1].id : 0;
 
     const newList = {
@@ -80,6 +89,8 @@ export function MyLists() {
       setNewListName("");
     } catch (error) {
       console.error("Error while creating new list", error);
+    } finally {
+      setCreatingList(false);
     }
   }
 
@@ -102,7 +113,7 @@ export function MyLists() {
 
       <ContentContainer>
         {loadingListData ? (
-          <LoadingSpin />
+          <LoadingSpin size={40} />
         ) : (
           <ListsList>
             {lists.map((list) => {
@@ -113,7 +124,10 @@ export function MyLists() {
                       <p>{list.name}</p>
                     </Link>
 
-                    <DeleteButton onClick={() => handleDeleteList(list.id)}>
+                    <DeleteButton
+                      onClick={() => handleDeleteList(list.id)}
+                      disabled={deletingList}
+                    >
                       <span className="material-symbols-outlined">delete</span>
                     </DeleteButton>
                   </ListCard>
@@ -125,14 +139,14 @@ export function MyLists() {
 
         <CreateListDialog
           open={createListDialogIsOpen}
-          onClose={() => setCreateListDialogIsOpen(false)}
+          onClose={handleCloseCreateListDialog}
         >
           <div className={"overlay"}>
             <DialogPanel className={"dialogContainer"}>
               <div className={"dialogHeader"}>
                 <DialogTitle as="h3">Criar lista</DialogTitle>
 
-                <button onClick={() => setCreateListDialogIsOpen(false)}>
+                <button onClick={handleCloseCreateListDialog}>
                   <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
@@ -141,14 +155,17 @@ export function MyLists() {
                 <Label as="p">Nome</Label>
                 <Input
                   name="listName"
-                  autoFocus={isFocused}
                   value={newListName}
                   onChange={handleChangeNewListName}
+                  required
                 />
               </Field>
 
-              <PrimaryButton onClick={handleCreateNewList}>
-                Salvar
+              <PrimaryButton
+                onClick={handleCreateNewList}
+                disabled={!newListName || creatingList}
+              >
+                {creatingList ? <LoadingSpin size={24} /> : "Salvar"}
               </PrimaryButton>
             </DialogPanel>
           </div>

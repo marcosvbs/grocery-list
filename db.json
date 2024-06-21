@@ -1,3 +1,9 @@
 {
-  "lists": []
+  "lists": [
+    {
+      "id": 1,
+      "name": "Feira mensal",
+      "items": []
+    }
+  ]
 }

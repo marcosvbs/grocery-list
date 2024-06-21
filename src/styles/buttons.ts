@@ -5,8 +5,13 @@ interface ButtonProps {
 }
 
 const defaultStyles = `
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width: 100%;
   max-width: 425px;
+  max-height: 40px;
   padding: 0.75rem 0.5rem;
 
   border: none;
@@ -14,7 +19,7 @@ const defaultStyles = `
 
   font-family: "Red Hat Display", sans-serif;
   font-weight: 700;
-  font-size: 0.875;
+  font-size: 0.875rem;
 
   cursor: pointer;
 `;
@@ -33,6 +38,11 @@ export const PrimaryButton = styled.button<ButtonProps>`
         ? props.theme["dark-secondary-brand"]
         : props.theme["dark-primary-brand"]};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${(props) => props.theme["placeholder-text"]};
+  }
 `;
 
 export const SecondaryButton = styled.button<ButtonProps>`
@@ -46,6 +56,11 @@ export const SecondaryButton = styled.button<ButtonProps>`
         ? props.theme["dark-secondary-brand"]
         : props.theme["dark-primary-brand"]};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: ${(props) => props.theme["placeholder-text"]};
+  }
 `;
 
 export const TertiaryButton = styled.button<ButtonProps>`
@@ -58,5 +73,10 @@ export const TertiaryButton = styled.button<ButtonProps>`
       props.checkMode
         ? props.theme["dark-secondary-brand"]
         : props.theme["dark-primary-brand"]};
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: ${(props) => props.theme["placeholder-text"]};
   }
 `;

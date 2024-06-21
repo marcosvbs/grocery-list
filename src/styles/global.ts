@@ -52,7 +52,7 @@ export const GlobalStyle = createGlobalStyle`
   button {
     font-family: "Red Hat Display", sans-serif;
     font-weight: 700;
-    font-size: 0.875;
+    font-size: 0.875rem;
     color: ${(props) => props.theme["title-text"]};
     
     border: none;
@@ -62,7 +62,7 @@ export const GlobalStyle = createGlobalStyle`
   a {
     font-family: "Red Hat Text", sans-serif;
     font-weight: 700;
-    font-size: 0.875;
+    font-size: 0.875rem;
     color: ${(props) => props.theme["title-text"]};
   }
 

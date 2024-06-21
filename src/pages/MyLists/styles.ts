@@ -83,12 +83,24 @@ export const DeleteButton = styled.button`
   border: none;
   cursor: pointer;
 
+  .material-symbols-outlined {
+    color: ${(props) => props.theme.error};
+  }
+
   &:hover {
     background-color: ${(props) => props.theme["dark-error"]};
   }
 
-  .material-symbols-outlined {
-    color: ${(props) => props.theme.error};
+  &:disabled {
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: transparent;
+    }
+
+    .material-symbols-outlined {
+      color: ${(props) => props.theme["placeholder-text"]};
+    }
   }
 `;
 
