@@ -22,16 +22,31 @@ import {
 import { api } from "../../lib/axios";
 import { Link } from "react-router-dom";
 import { List } from "../../@types/list";
+import { LoadingSpin } from "../../components/LoadingSpin";
 
 export function MyLists() {
+  const [loadingListData, setLoadingListData] = useState(true);
   const [lists, setLists] = useState<List[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
+  const [createListDialogIsOpen, setCreateListDialogIsOpen] =
+    useState<boolean>(false);
+  const [isFocused, setIsFocused] = useState<boolean>(false);
   const [newListName, setNewListName] = useState<string>("");
 
   async function fetchLists() {
-    const response = await api.get("/lists");
-    const fetchedLists = response.data;
-    setLists(fetchedLists);
+    try {
+      const response = await api.get("/lists");
+      const fetchedLists = response.data;
+      setLists(fetchedLists);
+    } catch (error) {
+      console.error("Error while fetching lists", error);
+    } finally {
+      setLoadingListData(false);
+    }
+  }
+
+  function handleOpenCreateListDialog() {
+    setCreateListDialogIsOpen(true);
+    setIsFocused(true);
   }
 
   async function handleDeleteList(listId: number) {
@@ -40,7 +55,7 @@ export function MyLists() {
       setLists((prevLists) => prevLists.filter((list) => list.id !== listId));
       fetchLists();
     } catch (error) {
-      console.log("Error while deleting list", error);
+      console.error("Error while deleting list", error);
     }
   }
 
@@ -61,7 +76,7 @@ export function MyLists() {
       await api.post("/lists", newList);
       fetchLists();
 
-      setIsOpen(false);
+      setCreateListDialogIsOpen(false);
       setNewListName("");
     } catch (error) {
       console.error("Error while creating new list", error);
@@ -74,44 +89,50 @@ export function MyLists() {
 
   return (
     <PageContainer>
-      {lists.length ? (
-        <Header
-          title="Minhas listas"
-          description={`${lists.length} lista criada`}
-        />
-      ) : (
-        <Header
-          title="Minhas listas"
-          description="Você ainda não possui listas criadas"
-        />
-      )}
+      <Header
+        title="Minhas listas"
+        description={
+          loadingListData
+            ? "Carregando listas..."
+            : lists.length
+            ? `${lists.length} lista criada`
+            : "Você ainda não possui listas criadas"
+        }
+      />
 
       <ContentContainer>
-        <ListsList>
-          {lists.map((list) => {
-            return (
-              <li key={list.id}>
-                <ListCard>
-                  <Link to={`/my-lists/${list.id}`}>
-                    <p>{list.name}</p>
-                  </Link>
+        {loadingListData ? (
+          <LoadingSpin />
+        ) : (
+          <ListsList>
+            {lists.map((list) => {
+              return (
+                <li key={list.id}>
+                  <ListCard>
+                    <Link to={`/my-lists/${list.id}`}>
+                      <p>{list.name}</p>
+                    </Link>
 
-                  <DeleteButton onClick={() => handleDeleteList(list.id)}>
-                    <span className="material-symbols-outlined">delete</span>
-                  </DeleteButton>
-                </ListCard>
-              </li>
-            );
-          })}
-        </ListsList>
+                    <DeleteButton onClick={() => handleDeleteList(list.id)}>
+                      <span className="material-symbols-outlined">delete</span>
+                    </DeleteButton>
+                  </ListCard>
+                </li>
+              );
+            })}
+          </ListsList>
+        )}
 
-        <CreateListDialog open={isOpen} onClose={() => setIsOpen(false)}>
+        <CreateListDialog
+          open={createListDialogIsOpen}
+          onClose={() => setCreateListDialogIsOpen(false)}
+        >
           <div className={"overlay"}>
             <DialogPanel className={"dialogContainer"}>
               <div className={"dialogHeader"}>
                 <DialogTitle as="h3">Criar lista</DialogTitle>
 
-                <button onClick={() => setIsOpen(false)}>
+                <button onClick={() => setCreateListDialogIsOpen(false)}>
                   <span className="material-symbols-outlined">close</span>
                 </button>
               </div>
@@ -120,7 +141,7 @@ export function MyLists() {
                 <Label as="p">Nome</Label>
                 <Input
                   name="listName"
-                  autoFocus
+                  autoFocus={isFocused}
                   value={newListName}
                   onChange={handleChangeNewListName}
                 />
@@ -135,7 +156,7 @@ export function MyLists() {
       </ContentContainer>
 
       <ActionBar>
-        <PrimaryButton onClick={() => setIsOpen(true)}>
+        <PrimaryButton onClick={handleOpenCreateListDialog}>
           Criar lista
         </PrimaryButton>
       </ActionBar>
