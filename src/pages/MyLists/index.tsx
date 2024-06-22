@@ -7,22 +7,16 @@ import {
   ActionBar,
   ListsList,
   DeleteButton,
-  CreateListDialog,
 } from "./styles";
 
 import { PrimaryButton } from "../../styles/buttons";
 
-import {
-  DialogPanel,
-  DialogTitle,
-  Field,
-  Input,
-  Label,
-} from "@headlessui/react";
+import { Field, Input, Label } from "@headlessui/react";
 import { api } from "../../lib/axios";
 import { Link } from "react-router-dom";
 import { List } from "../../@types/listsAndItems";
 import { LoadingSpin } from "../../components/LoadingSpin";
+import { Dialog } from "../../components/Dialog";
 
 export function MyLists() {
   const [loadingListData, setLoadingListData] = useState(true);
@@ -137,39 +131,28 @@ export function MyLists() {
           </ListsList>
         )}
 
-        <CreateListDialog
-          open={createListDialogIsOpen}
+        <Dialog
+          title={"Criar lista"}
+          isOpen={createListDialogIsOpen}
           onClose={handleCloseCreateListDialog}
         >
-          <div className={"overlay"}>
-            <DialogPanel className={"dialogContainer"}>
-              <div className={"dialogHeader"}>
-                <DialogTitle as="h3">Criar lista</DialogTitle>
+          <Field className={"field"}>
+            <Label as="p">Nome</Label>
+            <Input
+              name="listName"
+              value={newListName}
+              onChange={handleChangeNewListName}
+              required
+            />
+          </Field>
 
-                <button onClick={handleCloseCreateListDialog}>
-                  <span className="material-symbols-outlined">close</span>
-                </button>
-              </div>
-
-              <Field className={"listNameField"}>
-                <Label as="p">Nome</Label>
-                <Input
-                  name="listName"
-                  value={newListName}
-                  onChange={handleChangeNewListName}
-                  required
-                />
-              </Field>
-
-              <PrimaryButton
-                onClick={handleCreateNewList}
-                disabled={!newListName || creatingList}
-              >
-                {creatingList ? <LoadingSpin size={24} /> : "Salvar"}
-              </PrimaryButton>
-            </DialogPanel>
-          </div>
-        </CreateListDialog>
+          <PrimaryButton
+            onClick={handleCreateNewList}
+            disabled={!newListName || creatingList}
+          >
+            {creatingList ? <LoadingSpin size={24} /> : "Salvar"}
+          </PrimaryButton>
+        </Dialog>
       </ContentContainer>
 
       <ActionBar>
