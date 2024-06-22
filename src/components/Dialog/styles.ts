@@ -48,25 +48,4 @@ export const DialogContainer = styled(DialogPanel)`
       background: none;
     }
   }
-
-  .field {
-    display: flex;
-    flex-direction: column;
-
-    gap: 0.25rem;
-
-    input {
-      max-height: 40px;
-
-      padding: 0.75rem;
-
-      background-color: ${(props) => props.theme.background};
-      border: none;
-      border-radius: 6px;
-
-      &::placeholder {
-        color: ${(props) => props.theme["placeholder-text"]};
-      }
-    }
-  }
 `;

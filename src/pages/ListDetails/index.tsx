@@ -14,6 +14,17 @@ import {
 import { SecondaryLink } from "../../styles/links";
 import { LoadingSpin } from "../../components/LoadingSpin";
 import { PrimaryButton } from "../../styles/buttons";
+import { Dialog } from "../../components/Dialog";
+import { Input, Label } from "@headlessui/react";
+import { FieldRow, FormField } from "../../styles/formField";
+
+const defaultNewItemData = {
+  id: 0,
+  name: "",
+  amount: 1,
+  value: 0,
+  isChecked: false,
+};
 
 export function ListDetails() {
   const [loadingListData, setLoadingListData] = useState(true);
@@ -24,8 +35,8 @@ export function ListDetails() {
     items: [],
   });
   const [createItemDialogIsOpen, setCreateItemDialogIsOpen] =
-    useState<boolean>();
-  const [newItemData, setNewItemData] = useState<Item>();
+    useState<boolean>(false);
+  const [newItemData, setNewItemData] = useState<Item>(defaultNewItemData);
 
   async function fetchListData() {
     try {
@@ -45,7 +56,7 @@ export function ListDetails() {
 
   function handleCloseCreateItemDialog() {
     setCreateItemDialogIsOpen(false);
-    setNewItemData({});
+    setNewItemData(defaultNewItemData);
   }
 
   useEffect(() => {
@@ -89,39 +100,48 @@ export function ListDetails() {
           </ItemsList>
         )}
 
-        {/* <CreateListDialog
-          open={}
-          onClose={}
+        <Dialog
+          title={"Adicionar item"}
+          isOpen={createItemDialogIsOpen}
+          onClose={handleCloseCreateItemDialog}
         >
-          <div className={"overlay"}>
-            <DialogPanel className={"dialogContainer"}>
-              <div className={"dialogHeader"}>
-                <DialogTitle as="h3">Criar lista</DialogTitle>
+          <FieldRow>
+            <FormField>
+              <Label as="p">Nome</Label>
+              <Input
+                name="itemName"
+                type="text"
+                value={newItemData.name}
+                onChange={() => console.log("1")}
+                required
+              />
+            </FormField>
+          </FieldRow>
 
-                <button onClick={}>
-                  <span className="material-symbols-outlined">close</span>
-                </button>
-              </div>
+          <FieldRow>
+            <FormField>
+              <Label as="p">Quantidade</Label>
+              <Input
+                name="listName"
+                type="number"
+                value={newItemData.amount}
+                onChange={() => console.log("1")}
+                required
+              />
+            </FormField>
 
-              <Field className={"listNameField"}>
-                <Label as="p">Nome</Label>
-                <Input
-                  name="listName"
-                  value={newListName}
-                  onChange={handleChangeNewListName}
-                  required
-                />
-              </Field>
-
-              <PrimaryButton
-                onClick={handleCreateNewList}
-                disabled={!newListName || creatingList}
-              >
-                {creatingList ? <LoadingSpin size={24} /> : "Salvar"}
-              </PrimaryButton>
-            </DialogPanel>
-          </div>
-        </CreateListDialog> */}
+            <FormField>
+              <Label as="p">Preço unitário</Label>
+              <Input
+                name="listName"
+                type="number"
+                value={newItemData.value}
+                onChange={() => console.log("1")}
+                required
+              />
+            </FormField>
+          </FieldRow>
+        </Dialog>
       </ContentContainer>
       <ActionBar>
         <SecondaryLink to={"/my-lists"}>Voltar</SecondaryLink>
