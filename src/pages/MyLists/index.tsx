@@ -6,17 +6,18 @@ import {
   PageContainer,
   ActionBar,
   ListsList,
-  DeleteButton,
 } from "./styles";
 
 import { PrimaryButton } from "../../styles/buttons";
 
-import { Field, Input, Label } from "@headlessui/react";
+import { Input, Label } from "@headlessui/react";
 import { api } from "../../lib/axios";
 import { Link } from "react-router-dom";
 import { List } from "../../@types/listsAndItems";
 import { LoadingSpin } from "../../components/LoadingSpin";
 import { Dialog } from "../../components/Dialog";
+import { FieldRow, FormField } from "../../styles/formField";
+import { DeleteButton } from "../../components/DeleteButton";
 
 export function MyLists() {
   const [loadingListData, setLoadingListData] = useState(true);
@@ -121,9 +122,7 @@ export function MyLists() {
                     <DeleteButton
                       onClick={() => handleDeleteList(list.id)}
                       disabled={deletingList}
-                    >
-                      <span className="material-symbols-outlined">delete</span>
-                    </DeleteButton>
+                    />
                   </ListCard>
                 </li>
               );
@@ -136,15 +135,17 @@ export function MyLists() {
           isOpen={createListDialogIsOpen}
           onClose={handleCloseCreateListDialog}
         >
-          <Field className={"field"}>
-            <Label as="p">Nome</Label>
-            <Input
-              name="listName"
-              value={newListName}
-              onChange={handleChangeNewListName}
-              required
-            />
-          </Field>
+          <FieldRow>
+            <FormField>
+              <Label as="p">Nome</Label>
+              <Input
+                name="listName"
+                value={newListName}
+                onChange={handleChangeNewListName}
+                required
+              />
+            </FormField>
+          </FieldRow>
 
           <PrimaryButton
             onClick={handleCreateNewList}

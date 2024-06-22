@@ -72,38 +72,6 @@ export const ListCard = styled.div`
   }
 `;
 
-export const DeleteButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  padding: 0.5rem;
-
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  .material-symbols-outlined {
-    color: ${(props) => props.theme.error};
-  }
-
-  &:hover {
-    background-color: ${(props) => props.theme["dark-error"]};
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-
-    &:hover {
-      background-color: transparent;
-    }
-
-    .material-symbols-outlined {
-      color: ${(props) => props.theme["placeholder-text"]};
-    }
-  }
-`;
-
 export const CreateListDialog = styled(Dialog)`
   .overlay {
     display: flex;
@@ -149,27 +117,6 @@ export const CreateListDialog = styled(Dialog)`
     button {
       border: none;
       background: none;
-    }
-  }
-
-  .listNameField {
-    display: flex;
-    flex-direction: column;
-
-    gap: 0.25rem;
-
-    input {
-      max-height: 40px;
-
-      padding: 0.75rem;
-
-      background-color: ${(props) => props.theme.background};
-      border: none;
-      border-radius: 6px;
-
-      &::placeholder {
-        color: ${(props) => props.theme["placeholder-text"]};
-      }
     }
   }
 `;
