@@ -66,14 +66,16 @@ export const SecondaryButton = styled.button<ButtonProps>`
 export const TertiaryButton = styled.button<ButtonProps>`
   ${defaultStyles}
 
-  background-color: none;
+  padding: 0.2rem;
 
-  &:hover {
+  background-color: transparent;
+
+  /* &:hover {
     color: ${(props) =>
-      props.checkMode
-        ? props.theme["dark-secondary-brand"]
-        : props.theme["dark-primary-brand"]};
-  }
+    props.checkMode
+      ? props.theme["dark-secondary-brand"]
+      : props.theme["dark-primary-brand"]};
+  } */
 
   &:disabled {
     cursor: not-allowed;

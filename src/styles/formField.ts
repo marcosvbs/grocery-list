@@ -23,10 +23,29 @@ export const FormField = styled(Field)`
     &::placeholder {
       color: ${(props) => props.theme["placeholder-text"]};
     }
+
+    div {
+      display: flex;
+    }
+  }
+
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
   }
 `;
 
 export const FieldRow = styled.div`
   display: flex;
+  align-items: center;
   gap: 1rem;
+`;
+
+export const FieldColumn = styled.div`
+  max-width: 100%;
+  display: flex;
+  gap: 0;
 `;

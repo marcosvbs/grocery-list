@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../../lib/axios";
-import { Item, List } from "../../@types/listsAndItems";
+import { List } from "../../@types/listsAndItems";
 import { Header } from "../../components/Header";
 import {
   ActionBar,
@@ -13,17 +13,23 @@ import {
 } from "./styles";
 import { SecondaryLink } from "../../styles/links";
 import { LoadingSpin } from "../../components/LoadingSpin";
-import { PrimaryButton } from "../../styles/buttons";
+import { PrimaryButton, TertiaryButton } from "../../styles/buttons";
 import { Dialog } from "../../components/Dialog";
 import { Input, Label } from "@headlessui/react";
-import { FieldRow, FormField } from "../../styles/formField";
+import { FieldColumn, FieldRow, FormField } from "../../styles/formField";
 
-const defaultNewItemData = {
-  id: 0,
+interface NewItemData {
+  name: string;
+  amount: number;
+  value: number;
+}
+
+type ChangeNewItemAmountAction = "add" | "remove";
+
+const defaultNewItemData: NewItemData = {
   name: "",
-  amount: 1,
-  value: 0,
-  isChecked: false,
+  amount: 0,
+  value: 0.0,
 };
 
 export function ListDetails() {
@@ -36,7 +42,11 @@ export function ListDetails() {
   });
   const [createItemDialogIsOpen, setCreateItemDialogIsOpen] =
     useState<boolean>(false);
-  const [newItemData, setNewItemData] = useState<Item>(defaultNewItemData);
+  const [newItemData, setNewItemData] =
+    useState<NewItemData>(defaultNewItemData);
+
+  const [isNewItemFirstValueEntry, setIsNewItemFirstValueEntry] =
+    useState(true);
 
   async function fetchListData() {
     try {
@@ -57,6 +67,57 @@ export function ListDetails() {
   function handleCloseCreateItemDialog() {
     setCreateItemDialogIsOpen(false);
     setNewItemData(defaultNewItemData);
+  }
+
+  function handleChangeNewItemName(event: React.ChangeEvent<HTMLInputElement>) {
+    setNewItemData({
+      name: event.target.value,
+      amount: newItemData.amount,
+      value: newItemData.value,
+    });
+  }
+
+  function handleChangeNewItemAmount(action: ChangeNewItemAmountAction) {
+    if (newItemData.amount >= defaultNewItemData.amount) {
+      if (action === "add") {
+        setNewItemData((prevNewItemData) => {
+          return {
+            name: newItemData.name,
+            amount: prevNewItemData.amount + 1,
+            value: newItemData.value,
+          };
+        });
+      } else if (action === "remove") {
+        setNewItemData((prevNewItemData) => {
+          return {
+            name: newItemData.name,
+            amount: prevNewItemData.amount - 1,
+            value: newItemData.value,
+          };
+        });
+      }
+    }
+  }
+
+  function handleChangeNewItemValue(
+    event: React.ChangeEvent<HTMLInputElement>
+  ) {
+    console.log(Number(event.target.value));
+    let newValue;
+    if (isNewItemFirstValueEntry) {
+      newValue = Number(event.target.value) * 0.01;
+      setIsNewItemFirstValueEntry(false);
+    } else {
+      newValue = Number(event.target.value) * 10;
+    }
+
+    console.log(newValue);
+
+    setNewItemData({
+      name: newItemData.name,
+      amount: newItemData.amount,
+      value: newValue,
+    });
   }
 
   useEffect(() => {
@@ -112,7 +173,7 @@ export function ListDetails() {
                 name="itemName"
                 type="text"
                 value={newItemData.name}
-                onChange={() => console.log("1")}
+                onChange={handleChangeNewItemName}
                 required
               />
             </FormField>
@@ -121,26 +182,45 @@ export function ListDetails() {
           <FieldRow>
             <FormField>
               <Label as="p">Quantidade</Label>
-              <Input
-                name="listName"
-                type="number"
-                value={newItemData.amount}
-                onChange={() => console.log("1")}
-                required
-              />
+              <FieldColumn>
+                <TertiaryButton
+                  onClick={() => handleChangeNewItemAmount("remove")}
+                  disabled={newItemData.amount === defaultNewItemData.amount}
+                >
+                  <span className="material-symbols-outlined">remove</span>
+                </TertiaryButton>
+                <Input
+                  name="listName"
+                  type="number"
+                  value={newItemData.amount}
+                  readOnly
+                  required
+                />
+                <TertiaryButton
+                  onClick={() => handleChangeNewItemAmount("add")}
+                >
+                  <span className="material-symbols-outlined">add</span>
+                </TertiaryButton>
+              </FieldColumn>
             </FormField>
 
             <FormField>
               <Label as="p">Preço unitário</Label>
-              <Input
-                name="listName"
-                type="number"
-                value={newItemData.value}
-                onChange={() => console.log("1")}
-                required
-              />
+              <FieldRow>
+                <Label as="p">R$</Label>
+                <Input
+                  name="listName"
+                  type="number"
+                  value={newItemData.value}
+                  onChange={handleChangeNewItemValue}
+                  step={"0.00"}
+                  required
+                />
+              </FieldRow>
             </FormField>
           </FieldRow>
+
+          <PrimaryButton>Salvar</PrimaryButton>
         </Dialog>
       </ContentContainer>
       <ActionBar>
