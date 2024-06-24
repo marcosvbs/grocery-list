@@ -29,7 +29,7 @@ type ChangeNewItemAmountAction = "add" | "remove";
 const defaultNewItemData: NewItemData = {
   name: "",
   amount: 0,
-  value: 0.0,
+  value: 0,
 };
 
 export function ListDetails() {
@@ -44,9 +44,6 @@ export function ListDetails() {
     useState<boolean>(false);
   const [newItemData, setNewItemData] =
     useState<NewItemData>(defaultNewItemData);
-
-  const [isNewItemFirstValueEntry, setIsNewItemFirstValueEntry] =
-    useState(true);
 
   async function fetchListData() {
     try {
@@ -102,16 +99,7 @@ export function ListDetails() {
   function handleChangeNewItemValue(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
-    console.log(Number(event.target.value));
-    let newValue;
-    if (isNewItemFirstValueEntry) {
-      newValue = Number(event.target.value) * 0.01;
-      setIsNewItemFirstValueEntry(false);
-    } else {
-      newValue = Number(event.target.value) * 10;
-    }
-
-    console.log(newValue);
+    const newValue = Number(event.target.value);
 
     setNewItemData({
       name: newItemData.name,
@@ -210,11 +198,10 @@ export function ListDetails() {
                 <Label as="p">R$</Label>
                 <Input
                   name="listName"
-                  type="number"
                   value={newItemData.value}
                   onChange={handleChangeNewItemValue}
-                  step={"0.00"}
                   required
+                  type="number"
                 />
               </FieldRow>
             </FormField>
